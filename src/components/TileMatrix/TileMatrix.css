@@ -1,0 +1,6 @@
+.tile-matrix {
+  display: grid;
+  grid-template: repeat(16, auto) / repeat(16, auto) ;
+  width: min-content;
+  border: thin solid grey;
+}
