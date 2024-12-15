@@ -24,3 +24,5 @@ export const useTileById = (x: number, y: number) => {
 } 
 
 export const isMouseDownAtom = atom<boolean>(false);
+
+export const networkOutputAtom = atom<object>({});

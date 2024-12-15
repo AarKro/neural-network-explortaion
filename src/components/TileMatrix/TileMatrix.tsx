@@ -1,14 +1,16 @@
 import { FC, useEffect } from "react";
 import { useAtom } from "jotai";
-import { tileMapAtom, updateTileAtom, isMouseDownAtom, Position } from "../../jotaiStore";
+import { tileMapAtom, updateTileAtom, isMouseDownAtom, Position, networkOutputAtom } from "../../jotaiStore";
 import { initTileMatrix } from "../../utils";
 import { Tile } from "../Tile/Tile";
+import { runNetwork } from "../../neuralNetworkHandler";
 import "./TileMatrix.css";
 
 export const TileMatrix: FC = () => {
   const [ tileMap, setTileMap ] = useAtom(tileMapAtom);
   const [ , updateTile ] = useAtom(updateTileAtom);
   const [ , setIsMouseDown ] = useAtom(isMouseDownAtom);
+  const [ , setNetworkOutput ] = useAtom(networkOutputAtom);
 
   useEffect(() => {
     // register mouse down tracker
@@ -40,10 +42,28 @@ export const TileMatrix: FC = () => {
     navigator.clipboard.writeText(valueToCopy);
   }
 
+  const analyseTiles = () => {
+    const valuesToAnalyse: Array<number> = [];
+
+    tileMap.forEach((row) => {
+      row.forEach((tile) => {
+        valuesToAnalyse.push(Number(tile));
+      })
+    });
+
+    const output = runNetwork(valuesToAnalyse);
+    setNetworkOutput(output);
+  }
+
   return (
     <div>
       <button onClick={() => clearTiles()}>clear</button>
       <button onClick={() => copyTiles()}>copy</button>
+      <button onClick={() => analyseTiles()}>analyse</button>
+
+      <br/>
+      <br/>
+
       <div className="tile-matrix">
         {tileMap.map((row, x) => (
           row.map((_, y) => (
