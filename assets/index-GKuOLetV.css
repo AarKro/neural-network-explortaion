@@ -1,0 +1,1 @@
+.tile{border:thin solid grey;width:25px;height:25px}.tile-matrix{display:grid;grid-template:repeat(16,auto) / repeat(16,auto);width:min-content;border:thin solid grey}.results{display:flex;gap:40px}*{position:relative;box-sizing:border-box}
